@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property Carbon|null $updated_at
  *
  * @property Collection|ProviderSupportedMediaType[] $provider_supported_media_types
+ * @property Collection|AdsMedia[] $ads_media
  *
  * @package App\Models
  */
@@ -32,4 +33,9 @@ class Provider extends Model
 	{
 		return $this->hasMany(ProviderSupportedMediaType::class);
 	}
+
+    public function ads_media()
+    {
+        return $this->hasMany(AdsMedia::class);
+    }
 }

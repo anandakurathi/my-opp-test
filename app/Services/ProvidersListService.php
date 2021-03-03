@@ -8,7 +8,10 @@ use App\Models\Provider;
 
 class ProvidersListService
 {
-
+    /**
+     * Get Provider List With Rules
+     * @return mixed
+     */
     public function getProviderListWithRules()
     {
         return Provider::select('id', 'name')->with([
