@@ -18,7 +18,7 @@ class AdsMedia extends Migration
             $table->bigInteger('media_type_id')->unsigned();
             $table->bigInteger('provider_id')->unsigned();
             $table->string('ad_name');
-            $table->string('media_url');
+            $table->string('file_path');
             $table->enum('status', ['A', 'B']); // A=> Active, B=> Block
             $table->timestamps();
             $table->foreign('media_type_id')->references('id')->on('media_types');

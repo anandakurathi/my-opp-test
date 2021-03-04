@@ -72,38 +72,38 @@ class ProviderSupportedMediaTypeSeeder extends Seeder
     {
         return [
             'Google' => [
-                '.jpg' => [
+                'jpg' => [
                     'aspect_ratio' => '4:3',
                     'max_size' => 2,
                     'size_type' => 'MB',
                 ],
-                '.mp4' => [
+                'mp4' => [
                     'max_duration' => '60', // secounds
                 ],
-                '.mp3' => [
+                'mp3' => [
                     'max_duration' => '30', // secounds
                     'max_size' => 5,
                     'size_type' => 'MB',
                 ]
             ],
             'Snapchat' => [
-                '.jpg' => [
+                'jpg' => [
                     'aspect_ratio' => '16:9',
                     'max_size' => 5,
                     'size_type' => 'MB',
                 ],
-                '.gif' => [
+                'gif' => [
                     'aspect_ratio' => '16:9',
                     'max_size' => 5,
                     'size_type' => 'MB',
                 ],
-                '.mp4' => [
+                'mp4' => [
                     'max_duration' => '300', // secounds
                     'max_size' => 50,
                     'size_type' => 'MB',
                     'preview' => true
                 ],
-                '.mov' => [
+                'mov' => [
                     'max_duration' => '300', // secounds
                     'max_size' => 50,
                     'size_type' => 'MB',

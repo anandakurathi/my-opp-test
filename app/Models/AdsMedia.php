@@ -33,7 +33,7 @@ class AdsMedia extends Model
 
     protected $fillable = [
         'ad_name',
-        'media_url',
+        'file_path',
         'media_type_id',
         'provider_id',
         'status'

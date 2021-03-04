@@ -16,27 +16,27 @@ class MediaTypeSeeder extends Seeder
     {
         $imageTypes = [
             [
-                'name' => '.jpg',
+                'name' => 'jpg',
                 'category' => 'image',
                 'status' => 'A'
             ],
             [
-                'name' => '.gif',
+                'name' => 'gif',
                 'category' => 'image',
                 'status' => 'A'
             ],
             [
-                'name' => '.mp4',
+                'name' => 'mp4',
                 'category' => 'video',
                 'status' => 'A'
             ],
             [
-                'name' => '.mp3',
+                'name' => 'mp3',
                 'category' => 'video',
                 'status' => 'A'
             ],
             [
-                'name' => '.mov',
+                'name' => 'mov',
                 'category' => 'video',
                 'status' => 'A'
             ]

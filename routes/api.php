@@ -19,5 +19,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('providers', 'App\Http\Controllers\ProvidersController@index');
-Route::get('upload', 'App\Http\Controllers\UploadMediaController@index');
+Route::post('upload', 'App\Http\Controllers\UploadMediaController@index');
 Route::get('ads-list', 'App\Http\Controllers\AdsMediaListController@index');
