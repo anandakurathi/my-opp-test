@@ -24,6 +24,11 @@ use Illuminate\Database\Eloquent\Model;
  */
 class AdsMedia extends Model
 {
+    const ADS_MEDIA_STATUS = [
+        'Active' => 'A',
+        'Blocked' => 'B'
+    ];
+
     protected $table = 'ads_media';
 
     protected $casts = [
@@ -34,6 +39,7 @@ class AdsMedia extends Model
     protected $fillable = [
         'ad_name',
         'file_path',
+        'preview_path',
         'media_type_id',
         'provider_id',
         'status'

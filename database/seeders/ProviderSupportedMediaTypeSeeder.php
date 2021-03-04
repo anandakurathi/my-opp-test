@@ -74,8 +74,7 @@ class ProviderSupportedMediaTypeSeeder extends Seeder
             'Google' => [
                 'jpg' => [
                     'aspect_ratio' => '4:3',
-                    'max_size' => 2,
-                    'size_type' => 'MB',
+                    'max_size' => 2, // in MB always
                 ],
                 'mp4' => [
                     'max_duration' => '60', // secounds
@@ -83,30 +82,25 @@ class ProviderSupportedMediaTypeSeeder extends Seeder
                 'mp3' => [
                     'max_duration' => '30', // secounds
                     'max_size' => 5,
-                    'size_type' => 'MB',
                 ]
             ],
             'Snapchat' => [
                 'jpg' => [
                     'aspect_ratio' => '16:9',
                     'max_size' => 5,
-                    'size_type' => 'MB',
                 ],
                 'gif' => [
                     'aspect_ratio' => '16:9',
                     'max_size' => 5,
-                    'size_type' => 'MB',
                 ],
                 'mp4' => [
                     'max_duration' => '300', // secounds
                     'max_size' => 50,
-                    'size_type' => 'MB',
                     'preview' => true
                 ],
                 'mov' => [
                     'max_duration' => '300', // secounds
                     'max_size' => 50,
-                    'size_type' => 'MB',
                     'preview' => true
                 ]
             ],
