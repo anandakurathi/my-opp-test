@@ -25,6 +25,6 @@ class AspectRatio
      */
     public static function HeightWidthToAspactRatio($height, $weight): float
     {
-        return round(($weight / $height), 2);
+        return round(($height / $weight), 2);
     }
 }

@@ -16,12 +16,10 @@ class AdsMediaListService
     {
         return AdsMedia::with([
             'provider' => function ($query) {
-                $query->select('name as provider_name');
-                return $query;
+                return $query->select('id', 'name as provider_name');
             },
             'media_type' => function ($query) {
-                $query->select('name as media_name');
-                return $query;
+                return $query->select('id', 'name as media_name');
             }
         ])->orderBy('id', 'DESC')->paginate(5);
     }

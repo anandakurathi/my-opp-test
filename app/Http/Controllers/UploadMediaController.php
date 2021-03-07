@@ -3,10 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UploadMediaRequest;
-use App\Models\AdsMedia;
 use App\Services\UploadMediaService;
-use FFMpeg\FFMpeg;
-use FFMpeg\FFProbe;
 use Illuminate\Support\Facades\Storage;
 
 class UploadMediaController extends Controller
@@ -19,40 +16,38 @@ class UploadMediaController extends Controller
         $this->uploadMedia = $uploadMediaService;
     }
 
+    /**
+     * Upload Ad and info to application
+     * @param  UploadMediaRequest  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function index(UploadMediaRequest $request)
     {
-        if (!$request->hasFile('image_file')) {
-            return response()->json(
-                [
-                    "message" => "Could not find a media file"
-                ],
-                422
-            );
+        if ($request->image_file) {
+            $file = $request->image_file->getClientOriginalName();
+        } else {
+            $file = $request->video_file->getClientOriginalName();
         }
 
-        $getID3 = new \getID3;
-        $file = $getID3->analyze($_FILES["image_file"]['tmp_name']);
-        $playtime_seconds = $file['playtime_seconds'];
-
-        dd($playtime_seconds);
-        $file = $request->image_file->getClientOriginalName();
         $fileName = pathinfo($file, PATHINFO_FILENAME);
         $fieExtension = pathinfo($file, PATHINFO_EXTENSION);
         $providerMediaRules = $this->uploadMedia->getRulesByProviderAndMediaTYpe($request, $fieExtension);
 
-//        dd($providerMediaRules->toArray());
+        $validateRules = $this->uploadMedia->validateRules($request, $providerMediaRules);
+        if ($validateRules && array_key_exists('error', $validateRules)) {
+            return $this->responseData(422, $validateRules['message']);
+        }
 
         $currentFileName = time().'_'.$fileName.'.'.$fieExtension;
         $path = $providerMediaRules->provider->provider_name.'/'.date('d-m-Y').'/';
         try {
-            $request->image_file->storeAs(self::STORAGE_DIRECTORY.$path, $currentFileName);
+            if ($request->image_file) {
+                $request->image_file->storeAs(self::STORAGE_DIRECTORY.$path, $currentFileName);
+            } else {
+                $request->video_file->storeAs(self::STORAGE_DIRECTORY.$path, $currentFileName);
+            }
         } catch (\Exception $exception) {
-            return response()->json(
-                [
-                    "message" => 'Could not upload image:'.$exception->getMessage()
-                ],
-                500
-            );
+            return $this->responseData(500, 'Could not upload image:'.$exception->getMessage());
         }
 
         $adsMedia = $this->uploadMedia->insertAdsMedia(
@@ -61,22 +56,13 @@ class UploadMediaController extends Controller
             $providerMediaRules->media_type_id,
             $providerMediaRules->provider_id
         );
-        if ($adsMedia) {
+        if (!$adsMedia) {
             Storage::delete(self::STORAGE_DIRECTORY.$path.$currentFileName);
-            return response()->json(
-                [
-                    'message' => 'Something went wrong in ad upload',
-                ], 500
-            );
+            return $this->responseData(500, 'Something went wrong in ad upload');
         }
         $adsMediaData = $adsMedia->find($adsMedia->id);
 
-        return response()->json(
-            [
-                'message' => 'Ads uploaded successfully',
-                'datat' => $adsMediaData
-            ], 200
-        );
+        return $this->responseData(200, 'Ads uploaded successfully', $adsMediaData);
     }
 
     /**
@@ -93,6 +79,23 @@ class UploadMediaController extends Controller
         $string = preg_replace('/[^A-Za-z0-9\-]/', '', $string);
         // Replaces multiple hyphens with single one.
         return preg_replace('/-+/', '-', $string);
+    }
+
+    /**
+     * Prepares the response
+     * @param  int  $code
+     * @param  string  $message
+     * @param  array  $data
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function responseData($code = 200, $message = '', $data = [])
+    {
+        return response()->json(
+            [
+                'message' => $message,
+                'datat' => $data
+            ], $code
+        );
     }
 
 

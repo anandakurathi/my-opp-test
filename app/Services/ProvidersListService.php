@@ -20,13 +20,11 @@ class ProvidersListService
                 $query->select('id', 'media_type_id', 'provider_id')->with([
 
                     'media_type' => function ($query) {
-                        $query->select('id', 'name');
-                        return $query;
+                        return $query->select('id', 'name');
                     },
 
                     'restrictions' => function ($query) {
-                        $query->select('id', 'provider_supported_media_type_id', 'key_name', 'key_value');
-                        return $query;
+                        return $query->select('id', 'provider_supported_media_type_id', 'key_name', 'key_value');
                     }
 
                 ]);
